@@ -1,0 +1,4 @@
+CREATE TABLE voittajat (id INT AUTO_INCREMENT PRIMARY KEY, nimi VARCHAR(255));
+CREATE TABLE klikkausluku (id INT AUTO_INCREMENT PRIMARY KEY, luku INT);
+INSERT INTO klikkausluku (id, luku) VALUES (1, 1)
+
