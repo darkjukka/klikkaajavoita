@@ -20,6 +20,7 @@ class App extends Component {
 			GameScreen:[]
 		}
 	}
+	// Alustaa sovelluksen nimimerkkinäkymällä
 	componentWillMount(){
 		let NamePage =[];
 		NamePage.push(<Name key='Name' appContext={this}/>);

@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import throttle from 'lodash-es/throttle';
-
+// Material-ui:n muotoilut
 const styles = theme => ({
 	root: {
 	  width: '100%',
@@ -56,6 +56,7 @@ const styles = theme => ({
 	}
 });
 
+// Pelaajalle annetun palautteen määrittäminen klikkausluvun perusteella
 function Palkinto (props){
 	let palkintoteksti;
 	let palkinto;
@@ -77,7 +78,7 @@ function Palkinto (props){
 	}
 	return [palkintoteksti, palkinto];
 }
-
+// Klikkausluvun muuttaminen tietokantaan
 function countEdit(props) {
 	var data = {
 		luku: props,
@@ -97,7 +98,7 @@ function countEdit(props) {
 	});
 }
 
-
+// Uuden voittajan lisääminen tietokantaan
 function addWinner(props){
 	var data = {
 		nimi: props
@@ -125,10 +126,10 @@ class Game extends React.Component {
 		lastModified: '',
 		disabled : false
 	};
-
+	// Klikkaustoiminnon rajoittaminen, jotta http requestit pysyvät klikkauksissa mukana
 	this.handleClick = throttle(this.handleClick.bind(this), 400);
 	}
-
+	// Voittajalistan lataaminen tietokannasta ja sen uudelleen lataamisen määrittäminen
 	componentDidMount() {
 		fetch('/winners')
 		.then((response) => {
@@ -149,7 +150,7 @@ class Game extends React.Component {
 	componentWillUnmount() {
 		clearInterval(this.timerID);
 	}
-
+	// Voittajalistan hakeminen uudelleen tietokannasta
 	tick() {
 		fetch('/winners')
 		.then((response) => {
@@ -163,7 +164,7 @@ class Game extends React.Component {
 		klikattu = 0;
 	}
 
-
+	// Klikkauksen käsittely, joka hakee tietokannasta klikkausluvun
 	handleClick() {
 		klikattu = 1;
 		fetch('/count', {
@@ -187,7 +188,7 @@ class Game extends React.Component {
 	}
 
 	render() {
-		
+		// Lisää pelaajan klikkauksen klikkauslukuun ja kutsuu tarvittavia funktioita
 		if(klikattu === 1 && this.state.klikkaus.length > 0 && this.state.countRequestFailed === false){
 			let luku;
 			luku = this.state.klikkaus[0].luku+1;

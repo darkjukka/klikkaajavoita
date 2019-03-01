@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-
+// Modaalin muotoilut
 function getModalStyle() {
 	const top = 50;
 	const left = 50;
@@ -19,7 +19,7 @@ function getModalStyle() {
 		transform: `translate(-${top}%, -${left}%)`,
 	};
 }
-
+// Material-ui muotoilut
 const styles = theme => ({
 	Button: {
 		marginBottom: '7px',
@@ -70,14 +70,15 @@ class Name extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
     }
-  
+	// Käsittelee muutokset pelaajan syöttämässä arvossa ja poistaa välilyönnit nimimerkistä
     handleChange(event) {
 		this.setState({value: event.target.value.replace(/\s/g, '')});
-    }
+	}
+	// Sulkee modaalin
     handleClose = () => {
 		this.setState({ open: false });
     };
-  
+	// Käsittelee pelaajan syötteen. Palauttaa virheen, jos arvo on tyhjä. Alustaa siirtymisen pelinäkymään.
     handleSubmit(event) {
         var self = this;
         if(self.state.value === ''){
