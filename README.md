@@ -1,6 +1,6 @@
 ## Klikkaa ja voita! -moninpelisovellus
 
-## Backend: ExpressJS Frontend: React Tietokanta: Mysql
+## Backend: ExpressJS, Frontend: React, Tietokanta: Mysql
 
 Sovelluksen tietokantataulujen luontilauseet löytyvät extras-kansiosta.
 Tietokannan tiedot syötetään lib-kansiosta löytyvään pool.js tiedostoon.
