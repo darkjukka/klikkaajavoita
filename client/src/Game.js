@@ -78,42 +78,7 @@ function Palkinto (props){
 	}
 	return [palkintoteksti, palkinto];
 }
-// Klikkausluvun muuttaminen tietokantaan
-function countEdit(props) {
-	var data = {
-		luku: props,
-		id: '1'
-	}
-	fetch('/count/edit', {
-		method: 'POST',
-		headers: {
-		'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(data)
-	}).then((response) => {
-		if(!response.ok) throw new Error(response.status);
-		else return response.json();
-	}).catch((error) => {
-		console.log('error: ' + error);
-	});
-}
 
-// Uuden voittajan lisääminen tietokantaan
-function addWinner(props){
-	var data = {
-		nimi: props
-	}
-	fetch("/winners/winner", {
-		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify(data)
-	}).then((response) => {
-		if(!response.ok) throw new Error(response.status);
-		else return response.json();
-	}).catch((error) => {
-		console.log('error: ' + error);
-	});
-}
 
 class Game extends React.Component {
 	constructor(props) {
@@ -123,7 +88,6 @@ class Game extends React.Component {
 		voittajalista: [], 
 		voittajat: [],
 		countRequestFailed: false,
-		lastModified: '',
 		disabled : false
 	};
 	// Klikkaustoiminnon rajoittaminen, jotta http requestit pysyvät klikkauksissa mukana
@@ -167,36 +131,30 @@ class Game extends React.Component {
 	// Klikkauksen käsittely, joka hakee tietokannasta klikkausluvun
 	handleClick() {
 		klikattu = 1;
-		fetch('/count', {
-		method: 'GET',
-		headers: {'Content-Type': 'application/json', 
-		'If-Modified-Since': this.state.lastModified 
-		}}).then((response) => {
+		let data1 = {
+			nimi: this.props.nimi
+		}
+		fetch("/count/click", {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(data1)
+		}).then((response) => {
 			if(!response.ok) throw new Error(response.status);
-			else if(response.status === 304) throw new Error(response.status);
 			else return response.json();
 		}).then((data) => {
-			let date = new Date(Date.now());
-			this.setState({ countRequestFailed: false, lastModified: date.toUTCString(), klikkaus: data });
-			
+			this.setState({ countRequestFailed: false, klikkaus: data });
 		}).catch((error) => {
 			console.log('error: ' + error);
 			this.setState({ countRequestFailed: true });
-			
 		});
+		
 
 	}
 
 	render() {
 		// Lisää pelaajan klikkauksen klikkauslukuun ja kutsuu tarvittavia funktioita
-		if(klikattu === 1 && this.state.klikkaus.length > 0 && this.state.countRequestFailed === false){
-			let luku;
-			luku = this.state.klikkaus[0].luku+1;
-			palkinnot = Palkinto(luku);
-			countEdit(luku);
-			if(palkinnot[1] === 1){
-				addWinner(this.props.nimi);
-			}
+		if(klikattu === 1 && this.state.klikkaus.luku !== undefined && this.state.countRequestFailed === false){
+			palkinnot = Palkinto(this.state.klikkaus.luku);
 			klikattu = 0;
 		}
 		const { classes } =  this.props;
